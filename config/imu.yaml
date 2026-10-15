@@ -1,0 +1,8 @@
+/**:
+  ros__parameters:
+    device: /dev/ttyUSB0
+    baud_rate: 115200
+    update_rate: 200.0  # Hz; configure the sensor output rate at startup.
+    use_6axis: true  # Gyro-based yaw; false selects magnetometer-based 9-axis fusion.
+    frame_id: imu_link
+    timeout: 1.0  # Seconds without a complete IMU packet before exiting.
