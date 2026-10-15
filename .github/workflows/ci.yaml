@@ -1,0 +1,42 @@
+name: Build and test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-22.04
+    container: ros:humble-ros-base
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: src/witmotion_imu_ros2
+          persist-credentials: false
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          rosdep update --rosdistro humble
+          rosdep install --from-paths src --ignore-src --rosdistro humble -y
+
+      - name: Build
+        run: |
+          source /opt/ros/humble/setup.bash
+          colcon build --symlink-install --packages-select witmotion_imu_driver \
+            --cmake-args -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON
+
+      - name: Test
+        run: |
+          source /opt/ros/humble/setup.bash
+          source install/local_setup.bash
+          python3 -m py_compile src/witmotion_imu_ros2/launch/imu.launch.py
+          ctest --test-dir build/witmotion_imu_driver --output-on-failure
