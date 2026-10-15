@@ -16,12 +16,11 @@ ros2 launch witmotion_imu_driver imu.launch.py
 
 Edit `config/imu.yaml` for the port, frame, sensor `update_rate` (Hz), `use_6axis` and timeout.
 Use `params_file:=/absolute/path/imu.yaml` for another configuration file.
-Supported rates: 1, 2, 5, 10, 20, 50, 100 and 200 Hz.
-The sensor rate and fusion mode are set and read back at startup.
 All driver parameters are read-only while running; restart after editing YAML.
-`timeout` must be at least two sample periods. Startup configuration is not explicitly saved to EEPROM.
-`use_6axis: true` selects sensor-side 6-axis fusion; yaw is relative and can drift over time.
-`false` selects 9-axis fusion using magnetic heading.
+
+- Supported rates: 1, 2, 5, 10, 20, 50, 100 and 200 Hz.
+- `timeout` must be at least two sample periods.
+- `use_6axis: true` selects sensor-side 6-axis fusion; yaw is relative and can drift over time. `false` selects 9-axis fusion using magnetic heading.
 
 ## Output
 
